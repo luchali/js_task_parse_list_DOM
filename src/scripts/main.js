@@ -1,10 +1,17 @@
 'use strict';
 
 // write code here
-const listEmployee = document.body.querySelectorAll('li');
+const listEmployee = document.querySelectorAll('li');
 
 function parseSalary(salaryString) {
-  return parseFloat(salaryString.replace(/[^0-9.-]+/g, ''));
+  const cleanedString = salaryString.replace(/[^0-9.-]+/g, '');
+
+  // Перевіряємо, чи це дійсно валідне число
+  if (!isNaN(cleanedString) && cleanedString.trim() !== '') {
+    return parseFloat(cleanedString);
+  } else {
+    return null;
+  }
 }
 
 function sortList(list) {
@@ -30,5 +37,10 @@ function getEmployees(list) {
   });
 }
 
-sortList(listEmployee);
-getEmployees(listEmployee);
+function result(list) {
+  const resSort = sortList(list);
+
+  return getEmployees(resSort);
+}
+
+result(listEmployee);
