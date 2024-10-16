@@ -15,7 +15,7 @@ function parseSalary(salaryString) {
 }
 
 function sortList(list) {
-  return list.sort((a, b) => {
+  return [...list].sort((a, b) => {
     // Отримуємо зарплату з data-атрибутів і перетворюємо в число
     const salaryA = parseSalary(a.dataset.salary);
     const salaryB = parseSalary(b.dataset.salary);
@@ -27,20 +27,23 @@ function sortList(list) {
 
 function getEmployees(list) {
   return list.map((item) => {
-    // Створюємо об'єкт для кожного елементу списку
+    // Використовуємо деструктуризацію для dataset
+    const { position, salary, age } = item.dataset;
+    const nameObj = item.textContent.trim(); // Отримуємо ім'я
+
     return {
-      name: item.textContent.trim(), // Отримуємо ім'я
-      position: item.dataset.position, // Отримуємо позицію
-      salary: parseSalary(item.dataset.salary), // Отримуємо зп і конвертуємо
-      age: parseInt(item.dataset.age), // Отримуємо вік і конвертуємо в число
+      nameObj,
+      position, // Використовуємо деструктуризоване значення
+      salary: parseSalary(salary), // Конвертуємо зарплату в число
+      age: parseInt(age), // Конвертуємо вік в число
     };
   });
 }
 
-function result(list) {
+function getSortedEmployees(list) {
   const resSort = sortList(list);
 
   return getEmployees(resSort);
 }
 
-result(listEmployee);
+getSortedEmployees(listEmployee);
